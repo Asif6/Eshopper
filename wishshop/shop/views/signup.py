@@ -1,9 +1,24 @@
 from django import views
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from shop.forms import SignupForm
 
 from shop.models.myuser import MyUser
 from uuid import uuid4
+
+from django.core.mail import send_mail
+from django.conf import settings
+from django.contrib.sites.shortcuts import get_current_site
+
+def send_user_mail(email,token,request):
+    current_site=get_current_site(request)
+    subject="Account verification Mail"
+    message=f'Please Verify your email {current_site}/account_verify/{token}'
+    
+    from_email=settings.EMAIL_HOST_USER
+    recipient_list=[email]
+
+    send_mail(subject=subject,message=message,from_email=from_email,recipient_list=recipient_list)
+
 
 class Signup(views.View):
     def get(self,request):
@@ -46,6 +61,7 @@ class Signup(views.View):
 
             # print(createuser.token)
             createuser.save()
+            send_user_mail(email=createuser.email,token=createuser.token,request=request)
 
             return render(request,'index.html')
         data['error']=error
@@ -53,5 +69,21 @@ class Signup(views.View):
         print(error)
         return render(request,"signup.html",data)
         
+
+def email_verify_by_link(request,token):
+
+    user= MyUser.objects.get(token=token)
+
+    if not user:
+        error="Please clink the valid link  "
+    else:
+        
+        user.email_verify=True
+        user.save()
+
+    print(token)
+    return redirect("signup")
+
+
 
 

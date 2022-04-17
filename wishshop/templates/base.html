@@ -12,8 +12,8 @@
 		<!-- Title block  -->
 		{% endblock %}| E-Shopper
 	</title>
-	<link href="/static/shop/css/bootstrap.min.css" rel="stylesheet">
-	<link href="/static/shop/css/font-awesome.min.css" rel="stylesheet">
+	<link href="{% static 'shop/css/bootstrap.min.css' %}" rel="stylesheet">
+	<link href="{% static 'shop/css/font-awesome.min.css' %}" rel="stylesheet">
 	<link href="/static/shop/css/prettyPhoto.css" rel="stylesheet">
 	<link href="/static/shop/price-range.css" rel="stylesheet">
 	<link href="/static/shop/css/animate.css" rel="stylesheet">
@@ -71,7 +71,7 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="#"><img src="/static/shop/images/home/logo.png" alt="" /></a>
+							<a href="#"><img src="{% static 'shop/images/home/logo.png' %}" alt="" /></a>
 						</div>
 						<div class="btn-group pull-right">
 							<div class="btn-group">

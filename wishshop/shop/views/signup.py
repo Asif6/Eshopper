@@ -72,8 +72,10 @@ class Signup(views.View):
 
 def email_verify_by_link(request,token):
 
-    user= MyUser.objects.get(token=token)
-
+    try:
+        user= MyUser.objects.get(token=token)
+    except:
+        error="This Link is not valid"
     if not user:
         error="Please clink the valid link  "
     else:
